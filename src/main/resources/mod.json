@@ -1,0 +1,11 @@
+{
+  "main":"fr.cgi.sftp.Sftp",
+
+  "description":"Sftp module",
+  "licenses": ["The Apache Software License Version 2.0"],
+  "author": "Thomas COLENO",
+
+  "keywords": ["sftp"],
+  "homepage": "https://github.com/CGI-OPEN-ENT-NG/mod-sftp"
+
+}

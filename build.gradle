@@ -1,0 +1,47 @@
+apply from: "gradle/vertx.gradle"
+
+
+dependencies {
+  compile "com.hierynomus:sshj:$sshjVersion"
+}
+
+test {
+
+}
+
+def configurePom(def pom) {
+  pom.project {
+    name rootProject.name
+    description 'Sftp module'
+    inceptionYear '2018'
+    packaging 'jar'
+
+    url 'https://github.com/CGI-OPEN-ENT-NG/mod-sftp'
+
+    developers {
+      developer {
+        id 'tcol'
+        name 'Thomas COLENO'
+        email 'thomas.coleno@cgi.com'
+      }
+    }
+
+    scm {
+      connection 'scm:git:ssh://git@github.com:CGI-OPEN-ENT-NG/mod-sftp.git'
+      developerConnection 'scm:git:ssh://git@github.com:CGI-OPEN-ENT-NG/mod-sftp.git'
+      url 'https://github.com/CGI-OPEN-ENT-NG/mod-sftp.git'
+    }
+
+    licenses {
+      license {
+        name 'The Apache Software License, Version 2.0'
+        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+        distribution 'repo'
+      }
+    }
+
+    properties {
+      setProperty('project.build.sourceEncoding', 'UTF8')
+    }
+  }
+}
