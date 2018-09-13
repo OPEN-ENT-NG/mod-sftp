@@ -1,0 +1,8 @@
+    {
+      "name": "fr.openent~mod-sftp~1.0-SNAPSHOT",
+      "config": {
+        "main" : "fr.cgi.sftp.Sftp",
+        "worker" : true,
+    	"address" : "sftp"
+      }
+    }

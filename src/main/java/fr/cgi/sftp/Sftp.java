@@ -21,10 +21,10 @@ import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
 import net.schmizz.sshj.xfer.FileSystemFile;
 import org.vertx.java.busmods.BusModBase;
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.eventbus.Message;
-import org.vertx.java.core.json.JsonObject;
-import org.vertx.java.core.logging.Logger;
+import io.vertx.core.Handler;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -41,18 +41,18 @@ public class Sftp extends BusModBase implements Handler<Message<JsonObject>> {
 	private final String SSHKEY = "sshkey";
 	private final String LOCAL_FILE = "local-file";
 	private final String DIST_FILE = "dist-file";
-	private Logger log;
 
 	@Override
 	public void start() {
 		super.start();
-		vertx.eventBus().registerHandler(config.getString("address", "sftp"), this);
-		log = container.logger();
+		JsonObject conf = config;
+		String address = conf.getString("address", "sftp");
+        eb.consumer(address, this);
 	}
 
 	@Override
 	public void handle(Message<JsonObject> message) {
-		log.info("Message received on SFTP");
+        logger.info("Message received on SFTP");
 		String action = message.body().getString("action", "");
 		switch (action) {
 			case "send":
@@ -75,14 +75,14 @@ public class Sftp extends BusModBase implements Handler<Message<JsonObject>> {
 
 			try {
 				ssh.loadKnownHosts(new File(params.getString(KNOWN_HOSTS)));
-				if (params.containsField(PORT)) {
+				if (params.containsKey(PORT)) {
 					ssh.connect(params.getString(HOSTNAME), params.getInteger(PORT));
 				} else {
 					ssh.connect(params.getString(HOSTNAME));
 				}
 				boolean connected = false;
 				try {
-					if (params.containsField(SSHKEY)) {
+					if (params.containsKey(SSHKEY)) {
 						KeyProvider kp = ssh.loadKeys(params.getString(SSHKEY));
 						List<KeyProvider> kplist = new LinkedList<>();
 						kplist.add(kp);
@@ -90,9 +90,9 @@ public class Sftp extends BusModBase implements Handler<Message<JsonObject>> {
 						connected = true;
 					}
 				} catch (Exception e) {
-					log.error("Error when connecting with SSH Key ", e);
+                    logger.error("Error when connecting with SSH Key ", e);
 				}
-				if (!connected && params.containsField(PASSWORD)) {
+				if (!connected && params.containsKey(PASSWORD)) {
 					ssh.authPassword(params.getString(USERNAME), params.getString(PASSWORD));
 					connected = true;
 				}
@@ -105,7 +105,7 @@ public class Sftp extends BusModBase implements Handler<Message<JsonObject>> {
 				}
 			} catch (Exception e) {
 				String errorMessage = "Error when connecting to sftp server " + e.getMessage();
-				log.error(errorMessage);
+                logger.error(errorMessage);
 				sendError(message, errorMessage);
 			} finally {
 				try {
@@ -114,7 +114,7 @@ public class Sftp extends BusModBase implements Handler<Message<JsonObject>> {
 						sftp.close();
 					}
 				} catch (Exception e) {
-					log.warn("Error when disconnecting from SSH/SFTP ", e);
+                    logger.warn("Error when disconnecting from SSH/SFTP ", e);
 				}
 			}
 		}
@@ -154,9 +154,9 @@ public class Sftp extends BusModBase implements Handler<Message<JsonObject>> {
 			sendError(message, DIST_FILE + " absent");
 			return false;
 		}
-		if( params.containsField(PORT) && params.getInteger(PORT) == null) {
-			params.removeField(PORT);
-			log.warn("Wrong port format");
+		if( params.containsKey(PORT) && params.getInteger(PORT) == null) {
+			params.remove(PORT);
+			logger.warn("Wrong port format");
 		}
 		return true;
 	}
