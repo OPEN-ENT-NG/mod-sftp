@@ -1,5 +1,4 @@
 #!/bin/bash
-
 if [ ! -e node_modules ]
 then
   mkdir node_modules
