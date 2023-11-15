@@ -15,8 +15,7 @@
 
     <properties>
         <entCoreVersion>5.0-b2school-SNAPSHOT</entCoreVersion>
-        <sshjVersion>0.31.0</sshjVersion>
-        <gatlingHighchartsVersion>2.2.2</gatlingHighchartsVersion>
+        <sshjVersion>0.37.0</sshjVersion>
     </properties>
 
     <scm>
@@ -51,18 +50,6 @@
             <artifactId>sshj</artifactId>
             <version>${sshjVersion}</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.entcore</groupId>
-            <artifactId>tests</artifactId>
-            <version>${entCoreVersion}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.gatling.highcharts</groupId>
-            <artifactId>gatling-charts-highcharts</artifactId>
-            <version>${gatlingHighchartsVersion}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

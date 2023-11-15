@@ -24,3 +24,5 @@ classes
 gradlew*
 gradle
 .env
+dependency-reduced-pom.xml
+
