@@ -19,6 +19,16 @@
             <name>ODE Repository</name>
             <url>https://maven.opendigitaleducation.com/nexus/content/groups/public</url>
         </repository>
+        <repository>
+            <id>vertx</id>
+            <name>sonatype-vertx-repository</name>
+            <url>https://oss.sonatype.org/content/repositories/iovertx-3720/</url>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <name>sonatype-snapshots-repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
     </repositories>
 
     <properties>
